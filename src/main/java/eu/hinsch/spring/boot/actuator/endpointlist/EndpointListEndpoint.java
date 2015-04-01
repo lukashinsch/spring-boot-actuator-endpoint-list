@@ -22,7 +22,6 @@ import static java.util.stream.Collectors.toSet;
 /**
  * Created by lh on 01/04/15.
  */
-@Component
 public class EndpointListEndpoint implements MvcEndpoint, ApplicationContextAware {
 
     private final Configuration freemarkerConfig;

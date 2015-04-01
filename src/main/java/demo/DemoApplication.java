@@ -1,4 +1,4 @@
-package eu.hinsch.spring.boot.actuator.endpointlist;
+package demo;
 
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
