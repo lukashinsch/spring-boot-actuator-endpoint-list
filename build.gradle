@@ -10,11 +10,10 @@ buildscript {
     }
 }
 
-version = '0.1.1'
+version = '0.1.2'
 
 apply plugin: 'java'
 apply plugin: 'idea'
-apply plugin: 'spring-boot'
 
 jar {
     baseName = 'spring-boot-actuator-endpoint-list'
@@ -29,16 +28,15 @@ repositories {
 
 
 dependencies {
-    compile("org.springframework.boot:spring-boot-starter-freemarker")
-    compile("org.springframework.boot:spring-boot-starter-web")
-    compile("org.springframework.boot:spring-boot-starter-actuator")
-    testCompile("org.springframework.boot:spring-boot-starter-test") 
+    compile("org.springframework.boot:spring-boot-starter-freemarker:${springBootVersion}")
+    compile("org.springframework.boot:spring-boot-starter-web:${springBootVersion}")
+    compile("org.springframework.boot:spring-boot-starter-actuator:${springBootVersion}")
+    testCompile("org.springframework.boot:spring-boot-starter-test:${springBootVersion}")
 }
 
 task wrapper(type: Wrapper) {
     gradleVersion = '2.3'
 }
-
 
 apply plugin: 'signing'
 apply plugin: 'maven'
@@ -99,12 +97,6 @@ uploadArchives {
                         id 'lukashinsch'
                         name 'Lukas Hinsch'
                     }
-                }
-
-                parent {
-                    groupId 'org.springframework.boot'
-                    artifactId 'spring-boot-starter-parent'
-                    version '1.2.2.RELEASE'
                 }
             }
         }
