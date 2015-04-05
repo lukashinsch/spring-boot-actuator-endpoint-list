@@ -15,6 +15,7 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 import java.util.*;
+import java.util.stream.Stream;
 
 import static java.util.Comparator.naturalOrder;
 import static java.util.stream.Collectors.toList;
@@ -36,15 +37,28 @@ public class EndpointListEndpoint implements MvcEndpoint, ApplicationContextAwar
     @RequestMapping("/")
     @ResponseBody
     public String list() throws IOException, TemplateException {
-        List<String> endpoints = applicationContext.getBeansOfType(Endpoint.class)
+
+        Stream<String> endpoints = applicationContext.getBeansOfType(Endpoint.class)
                 .values()
                 .stream()
                 .filter(Endpoint::isEnabled)
-                .map(Endpoint::getId)
+                .map(Endpoint::getId);
+
+        Stream<String> mvcEndpoints = applicationContext.getBeansOfType(MvcEndpoint.class)
+                .values()
+                .stream()
+                .map(MvcEndpoint::getPath)
+                .filter(path -> (path != null) && (path.length() > 0))
+                .map(path -> path.startsWith("/") ? path.substring(1) : path);
+
+        List<String> allEndpoints = Stream.of(endpoints, mvcEndpoints)
+                .flatMap(stream -> stream)
                 .sorted(naturalOrder())
+                .distinct()
                 .collect(toList());
+
         Map<String,List<String>> model = new HashMap<>();
-        model.put("endpoints", endpoints);
+        model.put("endpoints", allEndpoints);
         return FreeMarkerTemplateUtils.processTemplateIntoString(freemarkerConfig.getTemplate("endpoints.ftl"), model);
     }
 
