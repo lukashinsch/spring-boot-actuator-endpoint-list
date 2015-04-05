@@ -16,6 +16,7 @@ import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 import java.util.*;
 
+import static java.util.Comparator.naturalOrder;
 import static java.util.stream.Collectors.toList;
 import static java.util.stream.Collectors.toSet;
 
@@ -35,14 +36,14 @@ public class EndpointListEndpoint implements MvcEndpoint, ApplicationContextAwar
     @RequestMapping("/")
     @ResponseBody
     public String list() throws IOException, TemplateException {
-        Set<String> endpoints = applicationContext.getBeansOfType(MvcEndpoint.class)
+        List<String> endpoints = applicationContext.getBeansOfType(Endpoint.class)
                 .values()
                 .stream()
-                .map(endpoint -> endpoint.getPath())
-                .filter(path -> path != null && path.length() > 0)
-                .map(path -> path.startsWith("/") ? path.substring(1) : path)
-                .collect(toSet());
-        Map<String,Set<String>> model = new HashMap<>();
+                .filter(Endpoint::isEnabled)
+                .map(Endpoint::getId)
+                .sorted(naturalOrder())
+                .collect(toList());
+        Map<String,List<String>> model = new HashMap<>();
         model.put("endpoints", endpoints);
         return FreeMarkerTemplateUtils.processTemplateIntoString(freemarkerConfig.getTemplate("endpoints.ftl"), model);
     }
