@@ -22,4 +22,4 @@ In your application.properties (or yaml), configure actuator to use a separate c
 ```
 management.context-path=/manage
 ```
-Then start the application and go to http://localhost:8080/manage/ to get a list of all available MvcEndpoints.
+Then start the application and go to http://localhost:8080/manage/ to get a list of all available endpoints. 
