@@ -1,5 +1,8 @@
 # Changelog
 
+## 0.1.4
+- Relaxed spring boot dependency requirements
+
 ## 0.1.3
 - find all enabled endpoints (fixes [#1](https://github.com/lukashinsch/spring-boot-actuator-endpoint-list/issues/1))
 
