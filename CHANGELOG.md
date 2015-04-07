@@ -1,5 +1,9 @@
 # Changelog
 
+## 0.1.5
+- Fixed display issue with illegal whitespace
+- Fix cdn url
+
 ## 0.1.4
 - Relaxed spring boot dependency requirements
 

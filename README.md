@@ -9,13 +9,13 @@ Simply add dependency the dependency to your build
 <dependency>
   <groupId>eu.hinsch</groupId>
   <artifactId>spring-boot-actuator-endpoint-list</artifactId>
-  <version>0.1.3</version>
+  <version>0.1.5</version>
 </dependency>
 ```
 
 ### Gradle
 ```
-runtime("eu.hinsch:spring-boot-actuator-endpoint-list:0.1.3")
+runtime("eu.hinsch:spring-boot-actuator-endpoint-list:0.1.5")
 ```
 ### Configuration
 In your application.properties (or yaml), configure actuator to use a separate context path, such as
