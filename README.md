@@ -9,13 +9,13 @@ Simply add dependency the dependency to your build and point browser to root of 
 <dependency>
   <groupId>eu.hinsch</groupId>
   <artifactId>spring-boot-actuator-endpoint-list</artifactId>
-  <version>0.1.5</version>
+  <version>0.1.6</version>
 </dependency>
 ```
 
 ### Gradle
 ```
-runtime("eu.hinsch:spring-boot-actuator-endpoint-list:0.1.5")
+runtime("eu.hinsch:spring-boot-actuator-endpoint-list:0.1.6")
 ```
 ### Configuration
 
