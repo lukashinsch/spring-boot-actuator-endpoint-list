@@ -2,7 +2,7 @@
 Simple entry page for spring boot actuator that lists links to all management endpoints under the root url of the management endpoints.
 
 ## Howto use
-Simply add dependency the dependency to your build
+Simply add dependency the dependency to your build and point browser to root of actuator url (including training slash).
 
 ### Maven
 ```
@@ -18,8 +18,9 @@ Simply add dependency the dependency to your build
 runtime("eu.hinsch:spring-boot-actuator-endpoint-list:0.1.5")
 ```
 ### Configuration
-In your application.properties (or yaml), configure actuator to use a separate context path, such as
+
+(Optional) Exclude endpoints from list
+
 ```
-management.context-path=/manage
+endpoints.list.excludes=shutdown,...
 ```
-Then start the application and go to http://localhost:8080/manage/ to get a list of all available endpoints. 

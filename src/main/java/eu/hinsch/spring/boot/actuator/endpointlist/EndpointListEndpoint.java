@@ -5,29 +5,30 @@ import freemarker.template.TemplateException;
 import org.springframework.beans.BeansException;
 import org.springframework.boot.actuate.endpoint.Endpoint;
 import org.springframework.boot.actuate.endpoint.mvc.MvcEndpoint;
+import org.springframework.boot.context.properties.ConfigurationProperties;
 import org.springframework.context.ApplicationContext;
 import org.springframework.context.ApplicationContextAware;
-import org.springframework.stereotype.Component;
 import org.springframework.ui.freemarker.FreeMarkerTemplateUtils;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 
-import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 import java.util.*;
 import java.util.stream.Stream;
 
 import static java.util.Comparator.naturalOrder;
 import static java.util.stream.Collectors.toList;
-import static java.util.stream.Collectors.toSet;
 
 /**
  * Created by lh on 01/04/15.
  */
+@ConfigurationProperties(prefix = "endpoints.list", ignoreUnknownFields = true)
 public class EndpointListEndpoint implements MvcEndpoint, ApplicationContextAware {
 
     private final Configuration freemarkerConfig;
+    private boolean isSensitive = false;
     private ApplicationContext applicationContext;
+    private List<String> excludes = new ArrayList<>();
 
     public EndpointListEndpoint() {
         freemarkerConfig = new Configuration(Configuration.DEFAULT_INCOMPATIBLE_IMPROVEMENTS);
@@ -53,6 +54,7 @@ public class EndpointListEndpoint implements MvcEndpoint, ApplicationContextAwar
 
         List<String> allEndpoints = Stream.of(endpoints, mvcEndpoints)
                 .flatMap(stream -> stream)
+                .filter(id -> !excludes.contains(id))
                 .sorted(naturalOrder())
                 .distinct()
                 .collect(toList());
@@ -69,7 +71,19 @@ public class EndpointListEndpoint implements MvcEndpoint, ApplicationContextAwar
 
     @Override
     public boolean isSensitive() {
-        return false;
+        return isSensitive;
+    }
+
+    public void setSensitive(boolean isSensitive) {
+        this.isSensitive = isSensitive;
+    }
+
+    public List<String> getExcludes() {
+        return excludes;
+    }
+
+    public void setExcludes(List<String> excludes) {
+        this.excludes.addAll(excludes);
     }
 
     @Override

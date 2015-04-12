@@ -1,0 +1,15 @@
+{"groups": [
+  {
+    "name": "endpoints.list",
+    "type": "eu.hinsch.spring.boot.actuator.endpointlist.EndpointListEndpoint",
+    "sourceType": "eu.hinsch.spring.boot.actuator.endpointlist.EndpointListEndpoint",
+    "description": "endpoint that links to all endpoints"
+  }
+],"properties": [
+  {
+    "name": "endpoints.list.excludes",
+    "type": "java.util.List<java.lang.String>",
+    "sourceType": "eu.hinsch.spring.boot.actuator.endpointlist.EndpointListEndpoint",
+    "description": "IDs of endpoints not to inlude in link list (usally anything that cannot be accessed with a GET request)"
+  }
+]}
