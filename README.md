@@ -1,3 +1,5 @@
+[![Maven Central](https://maven-badges.herokuapp.com/maven-central/eu.hinsch/spring-boot-actuator-endpoint-list/badge.svg)](https://maven-badges.herokuapp.com/maven-central/eu.hinsch/spring-boot-actuator-endpoint-list/)
+
 # spring-boot-actuator-endpoint-list
 Simple entry page for spring boot actuator that lists links to all management endpoints under the root url of the management endpoints.
 
