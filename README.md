@@ -1,4 +1,6 @@
+[![Coverage Status](https://coveralls.io/repos/lukashinsch/spring-boot-actuator-endpoint-list/badge.svg?branch=master)](https://coveralls.io/r/lukashinsch/spring-boot-actuator-endpoint-list?branch=master)
 [![Maven Central](https://maven-badges.herokuapp.com/maven-central/eu.hinsch/spring-boot-actuator-endpoint-list/badge.svg)](https://maven-badges.herokuapp.com/maven-central/eu.hinsch/spring-boot-actuator-endpoint-list/)
+[![Build Status](https://travis-ci.org/lukashinsch/spring-boot-actuator-endpoint-list.svg?branch=master)](https://travis-ci.org/lukashinsch/spring-boot-actuator-endpoint-list)
 
 # spring-boot-actuator-endpoint-list
 Simple entry page for spring boot actuator that lists links to all management endpoints under the root url of the management endpoints.
