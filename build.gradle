@@ -1,19 +1,22 @@
 buildscript {
-    ext {
-        springBootVersion = '1.2.0.RELEASE'
-    }
     repositories {
         mavenCentral()
     }
     dependencies {
-        classpath("org.springframework.boot:spring-boot-gradle-plugin:${springBootVersion}")
+        classpath("org.kt3k.gradle.plugin:coveralls-gradle-plugin:2.0.1")
     }
+}
+
+ext {
+    springBootVersion = '1.2.0.RELEASE'
 }
 
 version = '0.1.6'
 
 apply plugin: 'java'
 apply plugin: 'idea'
+apply plugin: 'jacoco'
+apply plugin: 'com.github.kt3k.coveralls'
 
 jar {
     baseName = 'spring-boot-actuator-endpoint-list'
@@ -39,64 +42,81 @@ task wrapper(type: Wrapper) {
     gradleVersion = '2.3'
 }
 
-apply plugin: 'signing'
-apply plugin: 'maven'
-
-group = 'eu.hinsch'
-
-task javadocJar(type: Jar, dependsOn: javadoc) {
-    classifier = 'javadoc'
-    from tasks.javadoc.destinationDir
+jacocoTestReport {
+    reports {
+        xml.enabled = true // coveralls plugin depends on xml format report
+        html.enabled = true
+    }
 }
 
-task sourcesJar(type: Jar) {
-    from sourceSets.main.allSource
-    classifier = 'sources'
+test {
+    testLogging {
+        events "failed"
+        exceptionFormat "full" // show assertion errors in build
+    }
 }
 
-artifacts {
-    archives jar
-    archives javadocJar
-    archives sourcesJar
-}
+if (System.getenv('CI') != 'true') {
 
-signing {
-    sign configurations.archives
-}
+    apply plugin: 'signing'
+    apply plugin: 'maven'
 
-uploadArchives {
-    repositories {
-        mavenDeployer {
-            beforeDeployment { MavenDeployment deployment -> signing.signPom(deployment) }
+    group = 'eu.hinsch'
 
-            repository(url: "https://oss.sonatype.org/service/local/staging/deploy/maven2/") {
-                authentication(userName: sonatypeUsername, password: sonatypePassword)
-            }
+    task javadocJar(type: Jar, dependsOn: javadoc) {
+        classifier = 'javadoc'
+        from tasks.javadoc.destinationDir
+    }
 
-            pom.project {
-                name 'spring-boot-actuator-endpoint-list'
-                packaging 'jar'
-                description 'simple spring boot actuator entry point to list all endpoints'
-                url 'https://github.com/lukashinsch/spring-boot-actuator-endpoint.list/'
+    task sourcesJar(type: Jar) {
+        from sourceSets.main.allSource
+        classifier = 'sources'
+    }
 
-                scm {
-                    url 'scm:git@github.com:lukashinsch/spring-boot-actuator-endpoint-list.git'
-                    connection 'scm:git@github.com:lukashinsch/spring-boot-actuator-endpoint-list.git'
-                    developerConnection 'scm:git@github.com:lukashinsch/spring-boot-actuator-endpoint-list.git'
+    artifacts {
+        archives jar
+        archives javadocJar
+        archives sourcesJar
+    }
+
+    signing {
+        sign configurations.archives
+    }
+
+    uploadArchives {
+        repositories {
+            mavenDeployer {
+                beforeDeployment { MavenDeployment deployment -> signing.signPom(deployment) }
+
+                repository(url: "https://oss.sonatype.org/service/local/staging/deploy/maven2/") {
+                    authentication(userName: sonatypeUsername, password: sonatypePassword)
                 }
 
-                licenses {
-                    license {
-                        name 'MIT License'
-                        url 'http://www.opensource.org/licenses/mit-license.php'
-                        distribution 'repo'
+                pom.project {
+                    name 'spring-boot-actuator-endpoint-list'
+                    packaging 'jar'
+                    description 'simple spring boot actuator entry point to list all endpoints'
+                    url 'https://github.com/lukashinsch/spring-boot-actuator-endpoint.list/'
+
+                    scm {
+                        url 'scm:git@github.com:lukashinsch/spring-boot-actuator-endpoint-list.git'
+                        connection 'scm:git@github.com:lukashinsch/spring-boot-actuator-endpoint-list.git'
+                        developerConnection 'scm:git@github.com:lukashinsch/spring-boot-actuator-endpoint-list.git'
                     }
-                }
 
-                developers {
-                    developer {
-                        id 'lukashinsch'
-                        name 'Lukas Hinsch'
+                    licenses {
+                        license {
+                            name 'MIT License'
+                            url 'http://www.opensource.org/licenses/mit-license.php'
+                            distribution 'repo'
+                        }
+                    }
+
+                    developers {
+                        developer {
+                            id 'lukashinsch'
+                            name 'Lukas Hinsch'
+                        }
                     }
                 }
             }
