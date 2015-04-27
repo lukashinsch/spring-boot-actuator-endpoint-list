@@ -12,6 +12,8 @@ import org.springframework.ui.freemarker.FreeMarkerTemplateUtils;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 import java.util.*;
 import java.util.stream.Stream;
@@ -36,6 +38,12 @@ public class EndpointListEndpoint implements MvcEndpoint, ApplicationContextAwar
         freemarkerConfig.setClassForTemplateLoading(this.getClass(), "/templates");
     }
 
+    @RequestMapping
+    public void redirect(HttpServletRequest request, HttpServletResponse response) throws IOException, TemplateException {
+        response.sendRedirect(request.getRequestURL().toString() + "/");
+    }
+
+
     @RequestMapping("/")
     @ResponseBody
     public String list() throws IOException, TemplateException {
@@ -56,13 +64,15 @@ public class EndpointListEndpoint implements MvcEndpoint, ApplicationContextAwar
         List<String> allEndpoints = Stream.of(endpoints, mvcEndpoints)
                 .flatMap(stream -> stream)
                 .filter(id -> !excludes.contains(id))
+                .filter(id -> !id.equals(this.id))
                 .sorted(naturalOrder())
                 .distinct()
                 .collect(toList());
 
         EndpointsModel model = new EndpointsModel();
         model.setEndpoints(allEndpoints);
-        model.setBaseLink(id != null ? "../" : "");
+        String baseLink = id != null ? "../" : "";
+        model.setBaseLink(baseLink);
         return FreeMarkerTemplateUtils.processTemplateIntoString(freemarkerConfig.getTemplate("endpoints.ftl"), model);
     }
 
