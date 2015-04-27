@@ -12,7 +12,7 @@
             <div class="panel panel-default">
                 <ul class="list-group">
                 <#list endpoints as endpoint>
-                    <li class="list-group-item"><a href="${endpoint}">${endpoint}</a></li>
+                    <li class="list-group-item"><a href="${baseLink}${endpoint}">${endpoint}</a></li>
                 </#list>
                 </ul>
             </div>
