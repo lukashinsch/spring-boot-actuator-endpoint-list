@@ -28,3 +28,13 @@ runtime("eu.hinsch:spring-boot-actuator-endpoint-list:0.1.6")
 ```
 endpoints.list.excludes=shutdown,...
 ```
+
+(Optional) Configure path
+
+By default the endpoint listens on the root context of the management endpoint. 
+This can cause conflicts with some security configurations (or may conflict with the main app), so to move to a subpath, set id property:
+
+```
+endpoints.list.id=my-path
+```
+

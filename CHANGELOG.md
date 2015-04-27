@@ -1,6 +1,10 @@
 # Changelog
 
-## 0.1.6
+## 0.1.7
+- Allow configuration of path via id property
+- Don't require trailing slash in url
+
+## 0.1.6N
 - Option to exclude endpoints from list
 
 ## 0.1.5
