@@ -14,6 +14,7 @@ import org.springframework.test.web.servlet.setup.MockMvcBuilders;
 import org.springframework.web.context.WebApplicationContext;
 
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
+import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.redirectedUrl;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.xpath;
 
 /**
@@ -22,7 +23,7 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 @RunWith(SpringJUnit4ClassRunner.class)
 @WebAppConfiguration
 @SpringApplicationConfiguration(classes = EndpointListIntegrationTests.TestConfig.class)
-@TestPropertySource(properties = "endpoints.list.excludes=shutdown")
+@TestPropertySource(properties = {"endpoints.list.excludes=shutdown", "management.context-path=/manage"})
 public class EndpointListIntegrationTests {
 
     @SpringBootApplication
@@ -39,7 +40,7 @@ public class EndpointListIntegrationTests {
 
     @Test
     public void shouldIncludeListToEndpoints() throws Exception {
-        mockMvc.perform(get("/"))
+        mockMvc.perform(get("/manage/"))
                 .andExpect(xpath("//ul/li/a[@href='autoconfig']").string("autoconfig"))
                 .andExpect(xpath("//ul/li/a[@href='beans']").string("beans"))
                 .andExpect(xpath("//ul/li/a[@href='configprops']").string("configprops"))
@@ -50,6 +51,13 @@ public class EndpointListIntegrationTests {
                 .andExpect(xpath("//ul/li/a[@href='mappings']").string("mappings"))
                 .andExpect(xpath("//ul/li/a[@href='metrics']").string("metrics"))
                 .andExpect(xpath("//ul/li/a[@href='trace']").string("trace"))
-                .andExpect(xpath("//ul/li/a[@href='shutdown']").doesNotExist());
+                .andExpect(xpath("//ul/li/a[@href='shutdown']").doesNotExist())
+                .andExpect(xpath("//ul/li/a[@href='list']").doesNotExist());
+    }
+
+    @Test
+    public void shouldRedirectWithoutTrailingSlash() throws Exception {
+        mockMvc.perform(get("/manage"))
+                .andExpect(redirectedUrl("http://localhost/manage/"));
     }
 }
