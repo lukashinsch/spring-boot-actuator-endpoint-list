@@ -11,5 +11,11 @@
     "type": "java.util.List<java.lang.String>",
     "sourceType": "eu.hinsch.spring.boot.actuator.endpointlist.EndpointListEndpoint",
     "description": "IDs of endpoints not to inlude in link list (usally anything that cannot be accessed with a GET request)"
+  },
+  {
+    "name": "endpoints.list.id",
+    "type": "java.lang.String",
+    "sourceType": "eu.hinsch.spring.boot.actuator.endpointlist.EndpointListEndpoint",
+    "description": "ID for this endpoint, used as path for request mapping (defaults to empty for root context)."
   }
 ]}

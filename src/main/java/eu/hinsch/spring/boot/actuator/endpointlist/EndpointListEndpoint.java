@@ -29,6 +29,7 @@ public class EndpointListEndpoint implements MvcEndpoint, ApplicationContextAwar
     private boolean isSensitive = false;
     private ApplicationContext applicationContext;
     private List<String> excludes = new ArrayList<>();
+    private String id;
 
     public EndpointListEndpoint() {
         freemarkerConfig = new Configuration(Configuration.DEFAULT_INCOMPATIBLE_IMPROVEMENTS);
@@ -59,14 +60,19 @@ public class EndpointListEndpoint implements MvcEndpoint, ApplicationContextAwar
                 .distinct()
                 .collect(toList());
 
-        Map<String,List<String>> model = new HashMap<>();
-        model.put("endpoints", allEndpoints);
+        EndpointsModel model = new EndpointsModel();
+        model.setEndpoints(allEndpoints);
+        model.setBaseLink(id != null ? "../" : "");
         return FreeMarkerTemplateUtils.processTemplateIntoString(freemarkerConfig.getTemplate("endpoints.ftl"), model);
     }
 
     @Override
     public String getPath() {
-        return "";
+        return id != null ? "/" + id : "";
+    }
+
+    public void setId(String id) {
+        this.id = id;
     }
 
     @Override
@@ -94,5 +100,26 @@ public class EndpointListEndpoint implements MvcEndpoint, ApplicationContextAwar
     @Override
     public void setApplicationContext(ApplicationContext applicationContext) throws BeansException {
         this.applicationContext = applicationContext;
+    }
+
+    public static class EndpointsModel {
+        private List<String> endpoints;
+        private String baseLink;
+
+        public List<String> getEndpoints() {
+            return endpoints;
+        }
+
+        public void setEndpoints(List<String> endpoints) {
+            this.endpoints = endpoints;
+        }
+
+        public String getBaseLink() {
+            return baseLink;
+        }
+
+        public void setBaseLink(String baseLink) {
+            this.baseLink = baseLink;
+        }
     }
 }
