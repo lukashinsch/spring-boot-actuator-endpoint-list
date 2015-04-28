@@ -28,7 +28,7 @@ import static java.util.stream.Collectors.toList;
 public class EndpointListEndpoint implements MvcEndpoint, ApplicationContextAware {
 
     private final Configuration freemarkerConfig;
-    private boolean isSensitive = false;
+    private boolean isSensitive = true;
     private ApplicationContext applicationContext;
     private List<String> excludes = new ArrayList<>();
     private String id;
