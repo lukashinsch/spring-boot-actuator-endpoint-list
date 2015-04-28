@@ -1,5 +1,8 @@
 # Changelog
 
+## 0.1.8
+- Make endpoint sensitive by default (fixes [#6](https://github.com/lukashinsch/spring-boot-actuator-endpoint-list/issues/6))
+
 ## 0.1.7
 - Allow configuration of path via id property
 - Don't require trailing slash in url
