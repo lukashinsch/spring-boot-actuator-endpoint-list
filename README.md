@@ -3,6 +3,8 @@
 [![Build Status](https://travis-ci.org/lukashinsch/spring-boot-actuator-endpoint-list.svg?branch=master)](https://travis-ci.org/lukashinsch/spring-boot-actuator-endpoint-list)
 
 # spring-boot-actuator-endpoint-list
+
+[![Join the chat at https://gitter.im/lukashinsch/spring-boot-actuator-endpoint-list](https://badges.gitter.im/Join%20Chat.svg)](https://gitter.im/lukashinsch/spring-boot-actuator-endpoint-list?utm_source=badge&utm_medium=badge&utm_campaign=pr-badge&utm_content=badge)
 Simple entry page for spring boot actuator that lists links to all management endpoints under the root url of the management endpoints.
 
 ## Howto use
