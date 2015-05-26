@@ -5,6 +5,8 @@
 # spring-boot-actuator-endpoint-list
 Simple entry page for spring boot actuator that lists links to all management endpoints under the root url of the management endpoints.
 
+![screenshot](img/screenshot.png)
+
 ## Howto use
 Simply add dependency the dependency to your build and point browser to root of actuator url (including trailing slash).
 
