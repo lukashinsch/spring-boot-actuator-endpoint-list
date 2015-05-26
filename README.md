@@ -6,7 +6,7 @@
 Simple entry page for spring boot actuator that lists links to all management endpoints under the root url of the management endpoints.
 
 ## Howto use
-Simply add dependency the dependency to your build and point browser to root of actuator url (including training slash).
+Simply add dependency the dependency to your build and point browser to root of actuator url (including trailing slash).
 
 ### Maven
 ```
